@@ -1,24 +1,17 @@
 %{?_javapackages_macros:%_javapackages_macros}
 
-%bcond_without bootstrap
+%bcond_with bootstrap
 
 Name:           antlr4
-Version:        4.5
-Release:        2%{?dist}
+Version:        4.5.2
+Release:        1
 Summary:        Java parser generator
+Group:		Development/Java
 License:        BSD
 URL:            http://www.antlr.org/
 BuildArch:      noarch
 
 Source0:        https://github.com/antlr/antlr4/archive/%{name}-%{version}.tar.gz#/%{name}-%{version}.tar.gz
-
-# Upstream uses an experimental bulid tool (http://bildtool.org/),
-# which is not available in Fedora.  RPMs are built with Maven using
-# POMs maintained by package maintainer.
-Source1:        antlr4-runtime.pom
-Source2:        antlr4-tool.pom
-Source3:        antlr4-maven-plugin.pom
-Source4:        antlr4-aggregator.pom
 
 # Prebuild binaries, used for bootstrapping only
 Source100:      https://copr-be.cloud.fedoraproject.org/results/mizdebsk/newpkg/fedora-rawhide-x86_64/antlr4-4.5-1.fc23/antlr4-4.5-1.fc23.noarch.rpm
@@ -26,17 +19,17 @@ Source101:      https://copr-be.cloud.fedoraproject.org/results/mizdebsk/newpkg/
 Source102:      https://copr-be.cloud.fedoraproject.org/results/mizdebsk/newpkg/fedora-rawhide-x86_64/antlr4-4.5-1.fc23/antlr4-maven-plugin-4.5-1.fc23.noarch.rpm
 
 BuildRequires:  maven-local
-BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.abego.treelayout:org.abego.treelayout.core)
 BuildRequires:  mvn(org.antlr:antlr3-maven-plugin)
 BuildRequires:  mvn(org.antlr:antlr-runtime)
 BuildRequires:  mvn(org.antlr:ST4)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:  mvn(org.apache.maven:maven-core)
 BuildRequires:  mvn(org.apache.maven:maven-plugin-api)
+BuildRequires:  mvn(org.apache.maven:maven-project)
+BuildRequires:  mvn(org.apache.maven.plugins:maven-plugin-plugin)
 BuildRequires:  mvn(org.apache.maven.plugin-tools:maven-plugin-annotations)
-BuildRequires:  mvn(org.apache.maven.shared:maven-plugin-testing-harness)
 BuildRequires:  mvn(org.codehaus.plexus:plexus-compiler-api)
+BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 BuildRequires:  mvn(org.sonatype.plexus:plexus-build-api)
 
 %if %{without bootstrap}
@@ -72,13 +65,16 @@ This package contains %{summary}.
 
 %prep
 %setup -q
-cp -a %{SOURCE1} runtime/Java/pom.xml
-cp -a %{SOURCE2} tool/pom.xml
-cp -a %{SOURCE3} antlr4-maven-plugin/pom.xml
-cp -a %{SOURCE4} pom.xml
 find -name \*.jar -delete
 
-%mvn_package :aggregator-project __noinstall
+# Missing test deps: org.seleniumhq.selenium:selenium-java
+%pom_disable_module runtime-testsuite
+%pom_disable_module tool-testsuite
+
+# Don't bundle dependencies
+%pom_remove_plugin :maven-shade-plugin tool
+
+%mvn_package :%{name}-master %{name}-runtime
 
 %if %{with bootstrap}
 for rpm in %{SOURCE100} %{SOURCE101} %{SOURCE102}; do rpm2cpio $rpm | cpio -id; done
@@ -87,7 +83,7 @@ sed -i "s,<path>,&$PWD," usr/share/maven-metadata/*
 %endif
 
 %build
-%mvn_build -s
+%mvn_build -s -f
 
 %install
 %mvn_install
