@@ -1,0 +1,5 @@
+sources:
+  antlr4-4.5-1.fc23.noarch.rpm: 45930e76d5ccf8013d1cb317008cb2c3e6676d38
+  antlr4-4.5.tar.gz: fa67ea8e35b21d66b53a5bc9d39ebb7cfaa936dc
+  antlr4-maven-plugin-4.5-1.fc23.noarch.rpm: 30d05be23dc3aca384a3f1cf0a66cdf0f863e610
+  antlr4-runtime-4.5-1.fc23.noarch.rpm: 13fe4b065d8bd8030359ae0e5e096d3ec6d1629d
