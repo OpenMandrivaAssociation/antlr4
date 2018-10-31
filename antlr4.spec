@@ -4,7 +4,7 @@
 
 Name:           antlr4
 Version:        4.5.2
-Release:        1
+Release:        2
 Summary:        Java parser generator
 Group:		Development/Java
 License:        BSD
