@@ -14,9 +14,9 @@ BuildArch:      noarch
 Source0:        https://github.com/antlr/antlr4/archive/%{name}-%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 # Prebuild binaries, used for bootstrapping only
-Source100:      https://copr-be.cloud.fedoraproject.org/results/mizdebsk/newpkg/fedora-rawhide-x86_64/antlr4-4.5-1.fc23/antlr4-4.5-1.fc23.noarch.rpm
-Source101:      https://copr-be.cloud.fedoraproject.org/results/mizdebsk/newpkg/fedora-rawhide-x86_64/antlr4-4.5-1.fc23/antlr4-runtime-4.5-1.fc23.noarch.rpm
-Source102:      https://copr-be.cloud.fedoraproject.org/results/mizdebsk/newpkg/fedora-rawhide-x86_64/antlr4-4.5-1.fc23/antlr4-maven-plugin-4.5-1.fc23.noarch.rpm
+Source100:	http://download-ib01.fedoraproject.org/pub/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/a/antlr4-4.5.2-8.fc31.noarch.rpm
+source101:	https://download-ib01.fedoraproject.org/pub/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/a/antlr4-runtime-4.5.2-8.fc31.noarch.rpm
+Source102:	https://download-ib01.fedoraproject.org/pub/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/a/antlr4-maven-plugin-4.5.2-8.fc31.noarch.rpm
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(org.abego.treelayout:org.abego.treelayout.core)
