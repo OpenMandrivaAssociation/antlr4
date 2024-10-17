@@ -8,7 +8,7 @@ Release:        2
 Summary:        Java parser generator
 Group:		Development/Java
 License:        BSD
-URL:            http://www.antlr.org/
+URL:            https://www.antlr.org/
 BuildArch:      noarch
 
 Source0:        https://github.com/antlr/antlr4/archive/%{name}-%{version}.tar.gz#/%{name}-%{version}.tar.gz
